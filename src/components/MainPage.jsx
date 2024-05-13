@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import './MainPage.css';
 import searchIcon from './search-alt-2-svgrepo-com.svg';
-import SearchResults from "./Search/SearchResults";
+import { useNavigate } from "react-router-dom";
+import SearchResults from './Search/SearchResults.jsx';
 
 const SearchBar = ({ value, onChange, onKeyPress }) => {
     return (
@@ -23,10 +24,11 @@ const MainPage = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [isScrolled, setIsScrolled] = useState(false);
     const [searchResults, setSearchResults] = useState(null);
+    const navigate = useNavigate();
 
     const handleSearch = async (e) => {
         if (e.key === 'Enter') {
-            
+            navigate(`/search/${searchTerm}`);
         }
     };
 
@@ -50,10 +52,10 @@ const MainPage = () => {
                 onChange={(e) => setSearchTerm(e.target.value)}
                 onKeyPress={handleSearch}
             />
-            {searchResults && searchResults.books.length > 0 && (
+            {searchResults && (
                 <SearchResults searchResults={searchResults} />
             )}
-            {searchResults && searchResults.books.length === 0 && (
+            {searchResults && searchResults.length === 0 && (
                 <p>검색 결과가 없습니다.</p>
             )}
         </div>
