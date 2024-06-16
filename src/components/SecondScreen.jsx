@@ -57,7 +57,7 @@ const SecondScreen = () => {
     }, [loggedInMemberId]);
     
     useEffect(() => {
-        fetchData('https://43.201.231.40:8080/open/bestseller', setBestsellers);
+        fetchData('http://43.201.231.40:8080/open/bestseller', setBestsellers);
         fetchData('http://43.201.231.40:8080/open/bestseller/newBook', setNewBooks);
         fetchData('http://43.201.231.40:8080/open/bestseller/blogChoice', setBlogChoices);
         fetchData('http://43.201.231.40:8080/open/bestseller/category/170', setEconomicBooks);
