@@ -127,7 +127,7 @@ const BookState = ({ isbn }) => {
     <div className="button-container">
         <div className="button-wrapper">
             <button className={`button ${activeButton === 'WANT_TO_READ' ? 'active' : ''}`} onClick={() => handleStateChange('WANT_TO_READ')}>
-                읽고 싶어요
+                읽고 싶음
             </button>
         </div>
         <div className="button-wrapper">

@@ -152,7 +152,7 @@ const SignUpPage = ({ setIsSignIn }) => {
                         placeholder="이름을 입력"
                         className="name-input"
                     />
-                    <label className="label-text">비밀번호 확인</label>
+                    <label className="label-text">번호 확인</label>
                     <input
                         type="password"
                         value={confirmPassword}
