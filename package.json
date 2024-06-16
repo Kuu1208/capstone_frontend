@@ -40,7 +40,7 @@
       "not dead",
       "not op_mini all"
     ],
-    "proxy": "http://apis.data.go.kr",
+    "start": "export HTTPS=true&&SSL_CRT_FILE=cert.pem&&SSL_KEY_FILE=key.pem react-scripts start",
     "development": [
       "last 1 chrome version",
       "last 1 firefox version",
