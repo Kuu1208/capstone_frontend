@@ -57,14 +57,14 @@ const SecondScreen = () => {
     }, [loggedInMemberId]);
     
     useEffect(() => {
-        fetchData('http://43.201.231.40:8080/open/bestseller', setBestsellers);
-        fetchData('http://43.201.231.40:8080/open/bestseller/newBook', setNewBooks);
-        fetchData('http://43.201.231.40:8080/open/bestseller/blogChoice', setBlogChoices);
-        fetchData('http://43.201.231.40:8080/open/bestseller/category/170', setEconomicBooks);
-        fetchData('http://43.201.231.40:8080/open/bestseller/category/1', setLiterature);
-        fetchData('http://43.201.231.40:8080/open/bestseller/category/987', setScience);
-        fetchData('http://43.201.231.40:8080/open/bestseller/category/656', setHumanities);
-        fetchData('http://43.201.231.40:8080/open/bestseller/category/336', setImprove);
+        fetchData('https://43.201.231.40:8080/open/bestseller', setBestsellers);
+        fetchData('https://43.201.231.40:8080/open/bestseller/newBook', setNewBooks);
+        fetchData('https://43.201.231.40:8080/open/bestseller/blogChoice', setBlogChoices);
+        fetchData('https://43.201.231.40:8080/open/bestseller/category/170', setEconomicBooks);
+        fetchData('https://43.201.231.40:8080/open/bestseller/category/1', setLiterature);
+        fetchData('https://43.201.231.40:8080/open/bestseller/category/987', setScience);
+        fetchData('https://43.201.231.40:8080/open/bestseller/category/656', setHumanities);
+        fetchData('https://43.201.231.40:8080/open/bestseller/category/336', setImprove);
     }, []); // 최초 렌더링 시에만 실행되도록 빈 배열 전달
 
     useEffect(() => {
