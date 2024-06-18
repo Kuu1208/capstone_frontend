@@ -1,9 +1,11 @@
+// MyPage.js
 import React, { useEffect, useState } from 'react';
 import { Bar, Doughnut } from 'react-chartjs-2';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { Chart, registerables } from 'chart.js';
-import "./MyPage.css";
+import Pagination from './Pagination';
+import './MyPage.css';
 
 Chart.register(...registerables);
 
@@ -16,6 +18,8 @@ const MyPage = () => {
     const [categoryStats, setCategoryStats] = useState({});
     const [bookStatus, setBookStatus] = useState({ content: [] });
     const [currentFilter, setCurrentFilter] = useState('전체');
+    const [currentPage, setCurrentPage] = useState(1);
+    const booksPerPage = 6;
     const email = sessionStorage.getItem('email') || '';
     const name = sessionStorage.getItem('name') || '';
     const accessToken = sessionStorage.getItem('accessToken') || '';
@@ -157,6 +161,13 @@ const MyPage = () => {
         return book.state === currentFilter;
     });
 
+    const totalPages = Math.ceil(filteredBooks.length / booksPerPage);
+    const currentBooks = filteredBooks.slice((currentPage - 1) * booksPerPage, currentPage * booksPerPage);
+
+    const handlePageChange = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    };
+
     return (
         <div className="my-page">
             <div className="profile-section">
@@ -228,7 +239,6 @@ const MyPage = () => {
             <h3>도서 분류</h3>
                 <Doughnut
                     data={{
-                        //labels: Object.keys(categoryStats),
                         labels: ["문학","인문학","경영/경제","자기계발","컴퓨터/과학","그 외"],
                         datasets: [{
                             data: Object.values(categoryStats),
@@ -237,62 +247,57 @@ const MyPage = () => {
                         }],   
                     }}
                 />
-
             </div>
 
             <div className="bottom-divider"></div>
 
             <div className="book-status-section">
-    <h3 style={{marginBottom: '10px', textAlign: 'center'}}>나의 서재</h3>
-    <div className="filter-buttons">
-        <button
-            className={`filter-button ${currentFilter === '전체' ? 'active' : ''}`}
-            onClick={() => setCurrentFilter('전체')}
-            style={{textDecoration: 'none'}}
-        >
-            전체
-        </button>
-        <button
-            className={`filter-button ${currentFilter === 'READ_ALREADY' ? 'active' : ''}`}
-            onClick={() => setCurrentFilter('READ_ALREADY')}
-            style={{textDecoration: 'none'}}
-        >
-            다 읽음
-        </button>
-        <button
-            className={`filter-button ${currentFilter === 'READING' ? 'active' : ''}`}
-            onClick={() => setCurrentFilter('READING')}
-            style={{textDecoration: 'none'}}
-        >
-            읽는 중 
-        </button>
-        <button
-            className={`filter-button ${currentFilter === 'WANT_TO_READ' ? 'active' : ''}`}
-            onClick={() => setCurrentFilter('WANT_TO_READ')}
-            style={{textDecoration: 'none'}}
-        >
-            읽고 싶은 책
-        </button>
-    </div>
-    <div className="book-list">
-    {filteredBooks.length > 0 ? (
-        filteredBooks.map((book, index) => (
-            <div key={index} className="book-item01">
-                <img src={book.bookImgUrl} className="book-image03" alt="book cover01" style={{ borderRadius: '20px' }} />
-                <p><a href={`/book/${book.isbn}`} style={{ textDecoration: 'none', color: 'inherit' }}>{book.bookTitle}</a></p>
-                <p style={{ fontWeight: '100', fontSize: '13px', color: 'grey' }}>{book.bookAuthor}</p>
+                <h3 style={{ marginBottom: '10px', textAlign: 'center' }}>나의 서재</h3>
+                <div className="filter-buttons">
+                    <button
+                        className={`filter-button ${currentFilter === '전체' ? 'active' : ''}`}
+                        onClick={() => setCurrentFilter('전체')}
+                        style={{ textDecoration: 'none' }}
+                    >
+                        전체
+                    </button>
+                    <button
+                        className={`filter-button ${currentFilter === 'READ_ALREADY' ? 'active' : ''}`}
+                        onClick={() => setCurrentFilter('READ_ALREADY')}
+                        style={{ textDecoration: 'none' }}
+                    >
+                        다 읽음
+                    </button>
+                    <button
+                        className={`filter-button ${currentFilter === 'READING' ? 'active' : ''}`}
+                        onClick={() => setCurrentFilter('READING')}
+                        style={{ textDecoration: 'none' }}
+                    >
+                        읽는 중 
+                    </button>
+                    <button
+                        className={`filter-button ${currentFilter === 'WANT_TO_READ' ? 'active' : ''}`}
+                        onClick={() => setCurrentFilter('WANT_TO_READ')}
+                        style={{ textDecoration: 'none' }}
+                    >
+                        읽고 싶은 책
+                    </button>
+                </div>
+                <div className="book-list">
+                    {currentBooks.length > 0 ? (
+                        currentBooks.map((book, index) => (
+                            <div key={index} className="book-item01">
+                                <img src={book.bookImgUrl} className="book-image03" alt="book cover01" style={{ borderRadius: '20px' }} />
+                                <p><a href={`/book/${book.isbn}`} style={{ textDecoration: 'none', color: 'inherit' }}>{book.bookTitle}</a></p>
+                                <p style={{ fontWeight: '100', fontSize: '13px', color: 'grey' }}>{book.bookAuthor}</p>
+                            </div>
+                        ))
+                    ) : (
+                        <p>책이 없습니다.</p>
+                    )}
+                </div>
+                <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
             </div>
-        ))
-    ) : (
-        <p>책이 없습니다.</p>
-    )}
-</div>
-
-
-
-</div>
-
-
         </div>
     );
 };

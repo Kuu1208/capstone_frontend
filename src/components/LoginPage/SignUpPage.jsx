@@ -22,8 +22,12 @@ const SignUpPage = ({ setIsSignIn }) => {
 
     const handleSignUp = async () => {
         if (!isCheckEmailFirst || !isEmailValid || password !== confirmPassword) {
+            if (password !== confirmPassword) {
+                setError("비밀번호와 비밀번호 재입력이 일치하지 않습니다.");
+            }
             return;
         }
+
         console.log({
             email,
             password,
@@ -31,6 +35,7 @@ const SignUpPage = ({ setIsSignIn }) => {
             birthdate,
             gender
         });
+
         try {
             const response = await axios.post("http://43.201.231.40:8080/members/new", {
                 email,
@@ -39,7 +44,7 @@ const SignUpPage = ({ setIsSignIn }) => {
                 birthdate,
                 gender
             });
-            console.log(response.data)
+            console.log(response.data);
             if (!response.data.data.id) {
                 throw new Error('회원가입에 실패했습니다.');
             }
@@ -48,6 +53,7 @@ const SignUpPage = ({ setIsSignIn }) => {
             navigate('/login'); // 회원가입 성공 시 로그인 화면으로 이동
         } catch (error) {
             console.error("회원가입 오류:", error);
+            setError("회원가입 중 오류가 발생했습니다.");
         }
     };
 
@@ -110,7 +116,7 @@ const SignUpPage = ({ setIsSignIn }) => {
             setError("이메일 중복 확인 중 오류가 발생했습니다.");
         }
     };
-    
+
     return (
         <div className="sign-up-page">
             <img src={logo} alt="로고" className="logo01" />
